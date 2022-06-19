@@ -64,22 +64,18 @@ def fake_round():
         ),
     ]
 
+    print("Impersonating", profile)
+
     for i, (get_url, post_url, data) in enumerate(urls):
 
-        print(i, get_url)
-        response = session.get(get_url)
-        print(response)
-        assert (
-            response.status_code == 200
-        ), f"{get_url} failed with {response.status_code}"
-        time.sleep(random.random())
+        # response = session.get(get_url)
+        # assert (
+        #     response.status_code == 200
+        # ), f"GET {get_url} failed with {response.status_code}"
+        # time.sleep(random.random())
 
-        print(i, post_url)
-        print("\t", data)
         response = session.post(post_url, data=data, allow_redirects=False)
-        print(response)
-        assert response.status_code == 302
-        print(" => ", response.headers["location"])
+        assert response.status_code == 302, f"POST to {post_url} failed with {response.status_code}"
         time.sleep(random.random())
 
     print("...")
@@ -96,12 +92,12 @@ if __name__ == "__main__":
             fake_round()
             passed += 1
         except Exception as error:
-            print("wtf", error, type(error))
             failed += 1
+            print("ERROR:", error)
 
         print("succeeded", passed, "failed", failed)
 
-    schedule.every(15).seconds.do(do_and_count)
+    schedule.every(5).seconds.do(do_and_count)
 
     print("started...")
     do_and_count()
