@@ -68,14 +68,12 @@ def fake_round():
 
     for i, (get_url, post_url, data) in enumerate(urls):
 
-        # response = session.get(get_url)
-        # assert (
-        #     response.status_code == 200
-        # ), f"GET {get_url} failed with {response.status_code}"
-        # time.sleep(random.random())
+        response = session.get(get_url)
+        response.raise_for_status()
+        time.sleep(random.random())
 
         response = session.post(post_url, data=data, allow_redirects=False)
-        assert response.status_code == 302, f"POST to {post_url} failed with {response.status_code}"
+        response.raise_for_status()
         time.sleep(random.random())
 
     print("...")
