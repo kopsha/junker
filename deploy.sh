@@ -4,14 +4,6 @@ set -e
 PROJECT_ROOT=$(git rev-parse --show-toplevel)
 PROJECT_NAME=$(basename $PROJECT_ROOT)
 
-printf " --\n"
-printf " -- stopping previous version\n"
-printf " --\n"
-ssh fibonet /bin/bash <<'EOT'
-set -e
-cd ~/junker
-docker stop junker
-EOT
 
 printf " --\n"
 printf " -- deploying $PROJECT_NAME (from $PROJECT_ROOT)\n"
@@ -20,7 +12,7 @@ printf " --\n"
 find . | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf
 
 printf "copying files"
-rsync -az $PROJECT_ROOT/ fibonet:~/$PROJECT_ROOT
+scp ./* fibonet:~/$PROJECT_NAME/
 
 ## service recomposition
 printf " --\n"
@@ -30,7 +22,7 @@ printf " --\n"
 ssh fibonet /bin/bash <<'EOT'
 set -e
 cd ~/junker
-docker run -d junker
+./go
 EOT
 
 printf " -- done\n"
