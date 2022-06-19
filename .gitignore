@@ -1,0 +1,8 @@
+.DS_Store
+credentials.ini
+internals.ini
+*.dat
+*.png
+__pycache__/
+.env
+.virtualenv/

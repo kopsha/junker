@@ -1,0 +1,4 @@
+Faker
+python-dateutil
+schedule
+requests
