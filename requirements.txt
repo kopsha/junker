@@ -2,4 +2,3 @@ Faker
 python-dateutil
 schedule
 requests
-fake_useragent

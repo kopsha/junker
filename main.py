@@ -5,13 +5,11 @@ import requests
 import schedule
 from faker import Faker
 from faker.providers import internet
-from fake_useragent import UserAgent
 
 
 def fake_round():
     fake = Faker()
     fake.add_provider(internet)
-    fake_ua = UserAgent()
 
     session = requests.Session()
     public_ip = fake.ipv4_public()
@@ -27,13 +25,13 @@ def fake_round():
         {
             "origin": "https://newmasster.cl",
             "referer": f"https://newmasster.cl/ingh/default.php?id={public_ip}",
-            "user-agent": fake_ua.chrome,
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
         }
     )
 
     urls = [
         (
-            f"https://newmasster.cl/ingh/default.php?id={public_ip}",
+            "https://newmasster.cl/ingh/pro/unlock.php",
             "https://newmasster.cl/ingh/pro/ci.php",
             dict(login=profile["username"], password=profile["password"])
         ),
@@ -71,7 +69,8 @@ def fake_round():
     
         print(i, get_url)
         response = session.get(get_url)
-        assert response.status_code == 200
+        print(response)
+        assert response.status_code == 200, f"{get_url} failed with {response.status_code}"
         time.sleep(random.random())
 
         print(i, post_url)
@@ -89,13 +88,22 @@ if __name__ == "__main__":
     passed, failed = 0, 0
 
     def do_and_count():
+        global failed
+        global passed
+
         try:
             fake_round()
             passed += 1
         except Exception as error:
+            print("wtf", error, type(error))
             failed += 1
 
+        print("succeeded", passed, "failed", failed)
+
     schedule.every(15).seconds.do(do_and_count)
+
+    print("started...")
+    do_and_count()
 
     while failed < 3:
         schedule.run_pending()
