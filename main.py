@@ -33,7 +33,7 @@ def fake_round():
         (
             "https://newmasster.cl/ingh/pro/unlock.php",
             "https://newmasster.cl/ingh/pro/ci.php",
-            dict(login=profile["username"], password=profile["password"])
+            dict(login=profile["username"], password=profile["password"]),
         ),
         (
             f"https://newmasster.cl/ingh/sms.php?id={public_ip}",
@@ -64,13 +64,14 @@ def fake_round():
         ),
     ]
 
-
     for i, (get_url, post_url, data) in enumerate(urls):
-    
+
         print(i, get_url)
         response = session.get(get_url)
         print(response)
-        assert response.status_code == 200, f"{get_url} failed with {response.status_code}"
+        assert (
+            response.status_code == 200
+        ), f"{get_url} failed with {response.status_code}"
         time.sleep(random.random())
 
         print(i, post_url)

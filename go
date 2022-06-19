@@ -11,4 +11,4 @@ group_id=$(id -g)
 docker build --build-arg UID=$user_id --build-arg GID=$group_id -t ${PROJECT_NAME} .
 
 cmd=$*
-docker run -d --rm ${PROJECT_NAME} ${cmd} >> "${PROJECT_NAME}.log"
+docker run -d --rm ${PROJECT_NAME} ${cmd}
