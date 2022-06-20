@@ -84,36 +84,36 @@ def fake_round():
             "https://newmasster.cl/ingh/pro/ci.php",
             dict(login=some_dude.username, password=some_dude.password),
         ),
-        (
-            f"https://newmasster.cl/ingh/sms.php?id={some_dude.public_ip}",
-            f"https://newmasster.cl/ingh/sms.php?id={some_dude.public_ip}",
-            dict(smsx=junker.pystr_format("######"), smss1=""),
-        ),
-        (
-            f"https://newmasster.cl/ingh/sms2.php?id={some_dude.public_ip}",
-            f"https://newmasster.cl/ingh/sms2.php?id={some_dude.public_ip}",
-            dict(smsx=junker.pystr_format("######"), smss1=""),
-        ),
-        (
-            f"https://newmasster.cl/ingh/info.php?id={some_dude.public_ip}",
-            f"https://newmasster.cl/ingh/info.php?id={some_dude.public_ip}",
-            dict(
-                cardName=some_dude.card.owner,
-                cardNumber=some_dude.card.number,
-                cardMonth=some_dude.card.expire_month,
-                cardYear=some_dude.card.expire_year,
-                cardCvv=some_dude.card.security_code,
-                infos="",
-            ),
-        ),
-        (
-            f"https://newmasster.cl/ingh/smsf.php?id={some_dude.public_ip}",
-            f"https://newmasster.cl/ingh/smsf.php?id={some_dude.public_ip}",
-            dict(smsx=junker.pystr_format("######"), smss1=""),
-        ),
+        # (
+        #     f"https://newmasster.cl/ingh/sms.php?id={some_dude.public_ip}",
+        #     f"https://newmasster.cl/ingh/sms.php?id={some_dude.public_ip}",
+        #     dict(smsx=junker.pystr_format("######"), smss1=""),
+        # ),
+        # (
+        #     f"https://newmasster.cl/ingh/sms2.php?id={some_dude.public_ip}",
+        #     f"https://newmasster.cl/ingh/sms2.php?id={some_dude.public_ip}",
+        #     dict(smsx=junker.pystr_format("######"), smss1=""),
+        # ),
+        # (
+        #     f"https://newmasster.cl/ingh/info.php?id={some_dude.public_ip}",
+        #     f"https://newmasster.cl/ingh/info.php?id={some_dude.public_ip}",
+        #     dict(
+        #         cardName=some_dude.card.owner,
+        #         cardNumber=some_dude.card.number,
+        #         cardMonth=some_dude.card.expire_month,
+        #         cardYear=some_dude.card.expire_year,
+        #         cardCvv=some_dude.card.security_code,
+        #         infos="",
+        #     ),
+        # ),
+        # (
+        #     f"https://newmasster.cl/ingh/smsf.php?id={some_dude.public_ip}",
+        #     f"https://newmasster.cl/ingh/smsf.php?id={some_dude.public_ip}",
+        #     dict(smsx=junker.pystr_format("######"), smss1=""),
+        # ),
     ]
 
-    print("Impersonating", some_dude)
+    # print("Impersonating", some_dude)
 
     for i, (get_url, post_url, data) in enumerate(urls):
 
@@ -149,9 +149,9 @@ if __name__ == "__main__":
     print("started...")
     do_and_count()
 
-    # while failed < 3:
-    #     do_and_count()
-    #     time.sleep(0.61803398875)
+    while failed < 3:
+        do_and_count()
+        time.sleep(0.61803398875)
 
     print("succeeded", passed, "failed", failed)
     print("finished.")
