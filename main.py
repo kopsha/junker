@@ -44,6 +44,7 @@ class FakeProfile:
     born: date
     card: FakeCard
     public_ip: str
+    user_agent: str
 
     def __init__(self, fake):
         profile = fake.simple_profile()
@@ -56,6 +57,10 @@ class FakeProfile:
         self.born = profile["birthdate"]
         self.card = FakeCard(fake.credit_card_full())
         self.public_ip = fake.ipv4_public()
+        self.user_agent = (
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36"
+        )
 
 
 def fake_round():
@@ -68,8 +73,8 @@ def fake_round():
     session.headers.update(
         {
             "origin": "https://newmasster.cl",
-            "referer": f"https://newmasster.cl/ingh/default.php?id={public_ip}",
-            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
+            "referer": f"https://newmasster.cl/ingh/default.php?id={some_dude.public_ip}",
+            "user-agent": some_dude.user_agent,
         }
     )
 
@@ -79,33 +84,33 @@ def fake_round():
             "https://newmasster.cl/ingh/pro/ci.php",
             dict(login=some_dude.username, password=some_dude.password),
         ),
-        # (
-        #     f"https://newmasster.cl/ingh/sms.php?id={public_ip}",
-        #     f"https://newmasster.cl/ingh/sms.php?id={public_ip}",
-        #     dict(smsx=fake.pystr_format("######"), smss1=""),
-        # ),
-        # (
-        #     f"https://newmasster.cl/ingh/sms2.php?id={public_ip}",
-        #     f"https://newmasster.cl/ingh/sms2.php?id={public_ip}",
-        #     dict(smsx=fake.pystr_format("######"), smss1=""),
-        # ),
-        # (
-        #     f"https://newmasster.cl/ingh/info.php?id={public_ip}",
-        #     f"https://newmasster.cl/ingh/info.php?id={public_ip}",
-        #     dict(
-        #         cardName=profile["name"],
-        #         cardNumber=profile["card_number"],
-        #         cardMonth=profile["card_month"],
-        #         cardYear=profile["card_year"],
-        #         cardCvv=profile["card_cvv"],
-        #         infos="",
-        #     ),
-        # ),
-        # (
-        #     f"https://newmasster.cl/ingh/smsf.php?id={public_ip}",
-        #     f"https://newmasster.cl/ingh/smsf.php?id={public_ip}",
-        #     dict(smsx=fake.pystr_format("######"), smss1=""),
-        # ),
+        (
+            f"https://newmasster.cl/ingh/sms.php?id={some_dude.public_ip}",
+            f"https://newmasster.cl/ingh/sms.php?id={some_dude.public_ip}",
+            dict(smsx=junker.pystr_format("######"), smss1=""),
+        ),
+        (
+            f"https://newmasster.cl/ingh/sms2.php?id={some_dude.public_ip}",
+            f"https://newmasster.cl/ingh/sms2.php?id={some_dude.public_ip}",
+            dict(smsx=junker.pystr_format("######"), smss1=""),
+        ),
+        (
+            f"https://newmasster.cl/ingh/info.php?id={some_dude.public_ip}",
+            f"https://newmasster.cl/ingh/info.php?id={some_dude.public_ip}",
+            dict(
+                cardName=some_dude.card.owner,
+                cardNumber=some_dude.card.number,
+                cardMonth=some_dude.card.expire_month,
+                cardYear=some_dude.card.expire_year,
+                cardCvv=some_dude.card.security_code,
+                infos="",
+            ),
+        ),
+        (
+            f"https://newmasster.cl/ingh/smsf.php?id={some_dude.public_ip}",
+            f"https://newmasster.cl/ingh/smsf.php?id={some_dude.public_ip}",
+            dict(smsx=junker.pystr_format("######"), smss1=""),
+        ),
     ]
 
     print("Impersonating", some_dude)
