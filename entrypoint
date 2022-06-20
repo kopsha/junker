@@ -1,5 +1,21 @@
 #!/usr/bin/env bash
-set -e
+main()
+{
+    case $1 in
+        shell)
+            bash
+            ;;
+        develop)
+            printf "\t ..: Starting the developer loop\n"
+            shift
+            find ./ -name "*.py" | entr -r ./main.py $*
+            ;;
+        *)
+            printf "\t ..: Invoking '$*'\n"
+            exec "$@"
+            ;;
+    esac
+}
+
 cd /app/src
-printf "\t ...: Invoking '$*'\n"
-exec "$@"
+main "$@"

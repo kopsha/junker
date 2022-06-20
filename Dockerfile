@@ -26,5 +26,6 @@ USER ${UNAME}
 COPY entrypoint /app/
 ENTRYPOINT ["/app/entrypoint"]
 COPY ./main.py /app/src/main.py
+VOLUME [ "/app/src" ]
 
 CMD ["./main.py"]
